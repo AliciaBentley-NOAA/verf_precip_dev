@@ -1,0 +1,66 @@
+####################################################################################################
+# This data input card defines the input variables for the script to process the 24-hourly model 
+# verification, where the
+#   1st entry: Model Name
+#   2nd entry: Verification length (24h)
+#   3rd entry: Verification grid(s)
+#   4th entry: Verification cycles
+#   5th entry: Precipitation bucket length
+#   6th entry: The model forecast range that is used for the verification
+#   7th entry: Nests
+#   8th entry: altcomin: get the data from the "alternative COMIN"
+#
+# Note: if you need to add a new model, please add it to the end of this file.
+#####################################################################################################
+#model|vlen|grids|cycles|blen|frange|nests
+#=========================================
+gfs|24|194|00 06 12 18|6|60|pur|altcomin
+gfsv14|24|194|00 06 12 18|6|60|pur|
+fv3gfs|24|194|00 06 12 18|6|60|pur|
+nam|24|194|00 12|12|60|pur|altcomin
+nam|24|194|06 18|03|60|pur|altcomin
+namx|24|194|00 12|12|60|pur
+namx|24|194|06 18|03|60|pur
+prnest|24|194|00 06 12 18|3|60|pur|altcomin
+prnestx|24|194|00 06 12 18|3|60|pur
+prnmmb|24|194|06 18|3|48|pur|altcomin
+prarw|24|194|06 18|3|48|pur|altcomin
+prarw2|24|194|06 18|3|48|pur|altcomin
+prnmmbx|24|194|06 18|3|48|pur
+prarwx|24|194|06 18|3|48|pur
+rap|24|194|03 09 21|1|39|pur|altcomin
+rapx|24|194|03 09 15 21|1|51|pur|
+gfs|24|196|00 06 12 18|6|60|hwi|altcomin
+gfsv14|24|196|00 06 12 18|6|60|hwi|
+fv3gfs|24|196|00 06 12 18|6|60|hwi|
+nam|24|196|00 12|12|60|hwi|altcomin
+nam|24|196|06 18|03|60|hwi|altcomin
+namx|24|196|00 12|12|60|hwi
+namx|24|196|06 18|03|60|hwi
+hinest|24|196|00 06 12 18|3|60|hwi|altcomin
+hinestx|24|196|00 06 12 18|3|60|hwi
+hinmmb|24|196|00 12|3|48|hwi|altcomin
+hiarw|24|196|00 12|3|48|hwi|altcomin
+hiarw2|24|196|00 12|3|48|hwi|altcomin
+hinmmbx|24|196|00 12|3|48|hwi
+hiarwx|24|196|00 12|3|48|hwi
+gfs|24|198|00 06 12 18|6|60|ask|altcomin
+gfsv14|24|198|00 06 12 18|6|60|ask
+fv3gfs|24|198|00 06 12 18|6|60|ask
+nam|24|198|00 12|12|60|ask|altcomin
+nam|24|198|06 18|03|60|ask|altcomin
+namx|24|198|00 12|12|60|ask
+namx|24|198|06 18|03|60|ask
+aknest|24|198|00 06 12 18|3|60|ask|altcomin
+aknestx|24|198|00 06 12 18|3|60|ask
+alaskarr|24|198|00 06 12 18|3|60|ask
+aknmmb|24|198|06 18|3|48|ask|altcomin
+akarw|24|198|06 18|3|48|ask|altcomin
+akarw2|24|198|06 18|3|48|ask|altcomin
+aknmmbx|24|198|06 18|3|48|ask
+akarwx|24|198|06 18|3|48|ask
+rap|24|198|03 09 21|1|39|ask|altcomin
+rapx|24|198|03 09 15 21|1|51|ask|
+hrrrak|24|198|00 06 12|1|36|ask|altcomin
+hrrrakx|24|198|00 06 12|1|48|ask|
+firewxak|24|198|00 06 12 18|1|36|ask

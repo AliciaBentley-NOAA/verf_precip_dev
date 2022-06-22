@@ -1,0 +1,137 @@
+#!/bin/sh
+set -x
+
+source ../versions/build.ver
+module reset
+
+export COMP=ftn
+
+module load intel/${intel_ver}
+module load PrgEnv-intel/${PrgEnvintel_ver}
+module load craype/${craype_ver}
+module load cray-mpich/${craympich_ver}
+module load bufr/${bufr_ver}
+module load libjpeg/${libjpeg_ver}
+module load bacio/${bacio_ver}
+module load w3emc/${w3emc_ver}
+module load w3nco/${w3nco_ver}
+module load ip/${ip_ver}
+module load sp/${sp_ver}
+module load g2/${g2_ver}
+module load jasper/${jasper_ver}
+module load libpng/${libpng_ver}
+module load zlib/${zlib_ver}
+
+module list
+
+sleep 1
+
+BASE=`pwd`
+
+if [ -d $BASE/../exec ]; then
+  rm -f $BASE/../exec/*
+else
+  mkdir $BASE/../exec
+fi
+
+
+##############################
+
+cd ${BASE}/nam_cmorph2grb.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/nam_stage4_acc.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_addgrdcnv.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_average.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_brkout_fcst.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_brkout_ndas.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_diffpcp.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_fss.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_pcpconform.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_precip_verfgen.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_g2g_grid2grid_grib2.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+cd ${BASE}/verf_g2g_reset.fd
+make clean
+make
+make mvexec
+make clean
+
+##############################
+
+
+

@@ -1,0 +1,40 @@
+##################################################################
+# This parameter file set up the environment variables used in
+# the J-Job scripts to run the grid2grid verifications
+##################################################################
+export COMRAP=/com2/rap/prod/rap
+export COMSREF=/com2/sref/prod/sref
+export COMHIRESW=/gpfs/hps/nco/ops/com/hiresw/prod/hiresw
+export COMNAM=/com2/nam/prod/nam
+export COMNAMNEST=/com2/nam/prod/nam
+export COMNAMFIREWX=/com2/nam/prod/nam
+#export COMMOSAIC=/com2/hourly/prod/radar
+export COMMOSAIC=/com/hourly/prod/radar
+export COMURMA=/com2/urma/prod/urma2p5
+export COMBUFR=/com/hourly/prod
+export COMGFS=/com2/gfs/prod/gfs
+export COMHRRR=/com2/hrrr/prod/hrrr
+export COMGFSANL=/com2/gfs/prod/gfs
+export COMGEFS=/com2/gens/prod/gefs
+export COMNDAS=/com2/nam/prod/ndas
+export COMNAEFS=/com2/gens/prod/cmce
+export COMGLMP=/com2/glmp/prod/glmp
+export COMHREF=${COMHREF:-/gpfs/hps/nco/ops/com/hiresw/prod/href}
+export DCOMAFWA=/dcom/us007003
+export COMFNMOC=/dcom/us007003
+export COMCCPA=/com2/ccpa/prod/ccpa
+
+#HOMEverf_href exported from ECF script
+export EXECverf_href=$HOMEverf_href/exec
+export PARMverf_href=$HOMEverf_href/parm
+export USHverf_href=$HOMEverf_href/ush
+export FIXverf_href=$HOMEverf_href/fix
+export SCRIPTerf_href=$HOMEverf_href/scripts
+
+# COM_IN, COM_OUT, COMVSDB, DATA_IN exported from ECF script.  
+export jlogfile=$DATA_IN/jlogfile
+
+export SENDCOM=${SENDCOM:-YES}
+export SENDECF=${SENDECF:-NO}
+export SENDDBN=${SENDDBN:-NO}
+

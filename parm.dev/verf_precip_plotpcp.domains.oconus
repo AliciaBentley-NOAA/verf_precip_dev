@@ -1,0 +1,59 @@
+####################################################################################################
+# This data input card defines the input variables for the script to plot the 24h precip verification
+# against the analysis
+#   1st entry: Model Name
+#   2nd entry: Hourlist
+#   3rd entry: Grid
+#
+# Note: 
+#   1. Please keep the international models (cmc, cmcglb ..., ukmo) together
+#   2. if you need to add a new model, please add it to the end of this file.
+#####################################################################################################
+#MODEL  |HOURLIST  |GRID|
+#=========================================
+gfs|24 30 36 42 48 54 60|194|
+gfsv14|24 30 36 42 48 54 60|194|
+fv3gfs|24 30 36 42 48 54 60|194|
+gfs|24 30 36 42 48 54 60|196|
+gfsv14|24 30 36 42 48 54 60|196|
+fv3gfs|24 30 36 42 48 54 60|196|
+gfs|24 30 36 42 48 54 60|198|
+gfsv14|24 30 36 42 48 54 60|198|
+fv3gfs|24 30 36 42 48 54 60|198|
+nam|24 30 36 42 48 54 60|194|
+nam|24 30 36 42 48 54 60|196|
+nam|24 30 36 42 48 54 60|198|
+namx|24 30 36 42 48 54 60|194|
+namx|24 30 36 42 48 54 60|196|
+namx|24 30 36 42 48 54 60|198|
+prnest|24 30 36 42 48 54 60|194|
+prnestx|24 30 36 42 48 54 60|194|
+prfv3|30 42|194|
+prarw|30 42|194|
+prarw2|30 42|194|
+prnmmbx|30 42|194|
+prarwx|30 42|194|
+hinest|24 30 36 42 48 54 60|196|
+hinestx|24 30 36 42 48 54 60|196|
+hifv3|24 36 48|196|
+hiarw|24 36 48|196|
+hiarw2|24 36 48|196|
+hinmmbx|24 36 48|196|
+hiarwx|24 36 48|196|
+aknest|24 30 36 42 48 54 60|198|
+aknestx|24 30 36 42 48 54 60|198|
+alaskarr|24 30 36 42 48 54 60|198|
+akfv3|30 42|198|
+akarw|30 42|198|
+akarw2|30 42|198|
+aknmmbx|30 42|198|
+akarwx|30 42|198|
+rap|27 33 39|194|
+rap|27 33 39|196|
+rap|27 33 39|198|
+rapx|27 33 39 45 51|194|
+rapx|27 33 39 45 51|196|
+rapx|27 33 39 45 51|198|
+hrrrak|24 30 36|198|
+hrrrakx|24 30 36 42 48|198|
+firewxak|24 30 36|198|

@@ -1,0 +1,136 @@
+#!/bin/sh
+set -xa
+
+#################################################################
+# 9/20/2009, Julia Zhu   Scripts are modified to be sharable
+#                        between EMC and NCO
+#         Please note that variable "RUN_ENVIR" is set and used
+#         in the development enviroment only.
+#################################################################
+export RUN_ENVIR=${RUN_ENVIR:-nco}
+export SENDECF=${SENDECF:-YES}
+
+###############################
+# Specify RUN name
+###############################
+export NET=verf_precip
+export RUN=href_apcp
+export RUN_TOO=precip
+
+###############################################################
+# This block can be modified for different Production test
+# environment. This is used for operational testings
+###############################################################
+if [ "$RUN_ENVIR" = nco -o "$RUN_ENVIR" = para ]; then
+  if [ $envir != "prod" ] ; then
+    export SENDDBN=${SENDDBN:-NO}
+    export DBNLOG=${DBNLOG:-YES}
+    export DATA_IN=${DATA_IN:-$DATAROOT}
+  fi
+
+fi
+
+verf_precip_ver=${verf_precip_ver:-href}
+
+#####################################################################################
+# This block is for Developer's test run:
+# Run config file to get input parameters
+# This config file should define the following variables
+# DATA_IN: Location of working directory, default to /tmpnwprd
+# SENDECF: If the job is to be running using ECF, default to YES
+# SENDDBN: Set to NO for developers, default to YES
+# COM_IN:  Directory for input files, default to /com/$NET/${envir}
+# COM_OUT: Directory for output file, default to /com/$NET/${envir}
+# gespath: Directory for the guess or restart files, default to /nwges/${envir}
+#####################################################################################
+if [ "$RUN_ENVIR" = dev ]    ### For Developers
+then
+  . $HOMEverf_href/parm/verf_g2g_dev_config
+fi
+
+# ###################################
+# SET SHELL PROCESSING VARIABLES
+# ###################################
+export PS4='$SECONDS + '
+date
+
+###########################################################
+# obtain unique process id (pid) and make temp directories
+###########################################################
+export pid=$$
+export DATA_IN=${DATA_IN:-$DATAROOT}
+#export DATA=$DATA_IN/verf_g2g_href_APCP_${cyc}_${envir}.$$
+export DATA=$DATA_IN/$jobid
+
+rm -rf $DATA
+mkdir -p $DATA
+cd $DATA
+
+export pgmout="OUTPUT.$$"
+export cycle=t${cyc}z
+
+##################################################
+# SAVEGES  - Copy Files From TMPDIR to $GESdir
+# SENDECF  - Flag Events on ECF
+# SENDCOM  - Copy Files From TMPDIR to $COMOUT
+# SENDDBN  - Issue DBNet Client Calls
+##################################################
+export SENDCOM=${SENDCOM:-YES}
+export SENDDBN=${SENDDBN:-YES}
+export SENDECF=${SENDECF:-YES}
+
+export HOMEverf_href=${HOMEverf_href:-${PACKAGEROOT}/verf_precip.${verf_precip_ver}}
+export EXECverf_g2g=${EXECverf_g2g:-$HOMEverf_href/exec}
+export FIXverf_g2g=${FIXverf_g2g:-$HOMEverf_href/fix}
+export PARMverf_g2g=${PARMverf_g2g:-$HOMEverf_href/parm}
+export USHverf_g2g=${USHverf_g2g:-$HOMEverf_href/ush}
+
+###################################
+# Set up the UTILITIES
+###################################
+
+# Run setpdy and initialize PDY variables
+setpdy.sh
+. $DATA/PDY
+
+export vday=${vday:-$PDYm2}
+
+##################################
+# Define model input COMIN
+##################################
+  export COMCCPA=${COMCCPA:-$(compath.py $envir/com/ccpa/${ccpa_ver}/ccpa)}
+  export COMHREF=${COMHREF:-$(compath.py $envir/com/href/${href_ver}/href)}
+  export COMNAM=${COMNAM:-$(compath.py $envir/com/nam/${nam_ver}/nam)}
+
+##################################
+# Define COMIN/COMOUT variables
+##################################
+export COM_IN=${COM_IN:-$(compath.py -o ${NET}/${verf_precip_ver})}
+export COM_OUT=${COM_OUT:-$(compath.py -o ${NET}/${verf_precip_ver})}
+
+export FCSTDIR=${FCSTDIR:-$COM_OUT/${RUN}}
+export OBSVDIR=${OBSVDIR:-$COM_OUT/${RUN}}
+
+export COMIN=$COM_IN/${RUN}.$vday
+export COMOUT=$COM_OUT/${RUN}.$vday
+export COMVSDB=${COMVSDB:-$(compath.py -o ${NET}/${verf_precip_ver}/vsdb)}
+
+# $COMVSDB/${model} made in ush/verf_g2g_run_href.sh
+mkdir -p -m 775 $COMOUT $COMVSDB
+
+env
+
+#######################################################################
+# Execute the script.
+sh $HOMEverf_href/scripts/exverf_g2g_href_APCP.sh $vday
+
+msg="JOB $job HAS COMPLETED NORMALLY."
+postmsg "$jlogfile" "$msg"
+
+if [ "$KEEPDATA" != "YES" ] ; then
+  cd $DATAROOT
+  rm -rf $DATA
+fi
+
+date
+

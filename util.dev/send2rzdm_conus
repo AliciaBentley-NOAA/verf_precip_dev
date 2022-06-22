@@ -1,0 +1,56 @@
+#!/bin/bash
+#PBS -N send2rzdm
+#PBS -o /lfs/h2/emc/ptmp/alicia.bentley/cron.out/verf_send2rzdm.out
+#PBS -e /lfs/h2/emc/ptmp/alicia.bentley/cron.out/verf_send2rzdm.err
+#PBS -l select=1:ncpus=10:mem=2GB
+#PBS -q dev_transfer
+#PBS -l walltime=00:25:00
+#PBS -A VERF-DEV
+
+set -x
+
+export RZDMDIR=/home/people/emc/www/htdocs/users/verification/precip/verif/daily_test
+if [ "$RZDMDIR" = "" ]; then
+	echo  RZDMDIR has not been defined!  Exit.
+fi
+
+export vday=`/bin/date --date="yesterday" +%Y%m%d`
+#export vday=20220616
+
+echo $vday
+vyear=${vday:0:4}
+vyearmon=${vday:0:6}
+#vyear=`echo $vday | cut -c 1-4`
+#vyearmon=`echo $vday | cut -c 1-6`
+echo ${year}
+echo ${fullday}
+
+export DATA=/lfs/h2/emc/stmp/${USER}/tmpnwprd_plot_conus
+cd $DATA
+
+pwd
+
+ls -l *gif
+
+#Obtain current NOHRSC image
+wget https://www.nohrsc.noaa.gov/snowfall/data/${vyearmon}/sfav2_CONUS_24h_${vday}12.png
+err=$?
+if [ $err -eq 0 ]; then
+	mv sfav2_CONUS_24h_${vday}12.png nohrsc.v${vday}12.024h.gif
+fi
+
+ssh emcrzdm -l abentley "mkdir -p $RZDMDIR/${vyear}/${vday}"
+scp *.gif index.html abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}/.
+
+# Copy stage IV(st4-qpe) into a format that the new webpage can read!
+scp st4.*.24h.gif abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}/qpe.v${vday}12.024h.gif
+
+# Copy over the GFS 24h forecast and the ST4 24h accum images to latest/
+# for the new daily comparisions web site head page.
+scp gfs.v*.024h.gif abentley@emcrzdm:${RZDMDIR}/latest/model_latest.gif
+scp st4.*.24h.gif abentley@emcrzdm:${RZDMDIR}/latest/anl_latest.gif
+
+cd ..
+rm -rf $DATA   
+
+exit

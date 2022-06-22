@@ -1,2 +1,2 @@
-# verf_precip_dev
-The dev version of verf_precip on WCOSS2
+# verf_precip.v4.5.0
+WCOSS2 production version (11/9/21). 

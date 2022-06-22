@@ -1,0 +1,1 @@
+this dir contains files I modified in an attempt to fix "uninitialized variables" (see makefile.debug)

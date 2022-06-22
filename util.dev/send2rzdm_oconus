@@ -1,0 +1,46 @@
+#!/bin/bash
+#PBS -N send2rzdm
+#PBS -o /lfs/h2/emc/ptmp/alicia.bentley/cron.out/verf_send2rzdm_oconus.out
+#PBS -e /lfs/h2/emc/ptmp/alicia.bentley/cron.out/verf_send2rzdm_oconus.err
+#PBS -l select=1:ncpus=10:mem=2GB
+#PBS -q dev_transfer
+#PBS -l walltime=00:25:00
+#PBS -A VERF-DEV
+
+set -x
+
+export RZDMDIR=/home/people/emc/www/htdocs/users/verification/precip/verif/daily_test
+if [ "$RZDMDIR" = "" ]; then
+	echo  RZDMDIR has not been defined!  Exit.
+fi
+
+export vday=`/bin/date --date="yesterday" +%Y%m%d`
+#export vday=20220620
+
+echo $vday
+vyear=${vday:0:4}
+vyearmon=${vday:0:6}
+#vyear=`echo $vday | cut -c 1-4`
+#vyearmon=`echo $vday | cut -c 1-6`
+echo ${year}
+echo ${fullday}
+
+export DATA=/lfs/h2/emc/stmp/${USER}/tmpnwprd_plot_oconus
+cd $DATA
+
+pwd
+
+ls -l *gif
+
+ssh emcrzdm -l abentley "mkdir -p ${RZDMDIR}/${vyear}/${vday}.oconus"
+scp *.gif index.html abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}.oconus/.
+
+# Copy cmorph(qpe) into a format that the new webpage can read!
+scp cmorph.*.ak.gif abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}.oconus/qpe.v${vday}12.024h.AK.gif
+scp cmorph.*.hi.gif abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}.oconus/qpe.v${vday}12.024h.HI.gif
+scp cmorph.*.pr.gif abentley@emcrzdm:${RZDMDIR}/${vyear}/${vday}.oconus/qpe.v${vday}12.024h.PR.gif
+
+cd ..
+rm -rf $DATA   
+
+exit
